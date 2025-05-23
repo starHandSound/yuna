@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 유나와 쿠키의 마법 같은 이야기</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for wire icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --neon-pink: #ff69b4;
+            --neon-purple: #9d4edd;
+            --neon-blue: #00bfff;
+            --neon-yellow: #ffd700;
+            --neon-green: #00ff7f;
+            --neon-orange: #ff6347;
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --text-overlay: rgba(0, 0, 0, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-size: 1.125rem;
+        }
+
+        /* Background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 191, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            z-index: -2;
+        }
+
+        /* Grain texture */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.01) 2px,
+                    rgba(255, 255, 255, 0.01) 4px
+                );
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Wire icon animations */
+        .wire-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            color: var(--neon-pink);
+            animation: wireFloat 4s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wire-icon:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .wire-icon.pencil {
+            color: var(--neon-yellow);
+            animation: wireSpin 3s linear infinite;
+        }
+
+        .wire-icon.heart {
+            color: var(--neon-pink);
+            animation: heartPulse 2s ease-in-out infinite;
+        }
+
+        .wire-icon.music {
+            color: var(--neon-blue);
+            animation: musicBounce 2.5s ease-in-out infinite;
+        }
+
+        .wire-icon.star {
+            color: var(--neon-yellow);
+            animation: starTwinkle 1.5s ease-in-out infinite alternate;
+        }
+
+        .wire-icon.moon {
+            color: var(--neon-purple);
+            animation: moonPhase 4s ease-in-out infinite;
+        }
+
+        .wire-icon.lightning {
+            color: var(--neon-blue);
+            animation: lightningFlash 2s ease-in-out infinite;
+        }
+
+        .wire-icon.bulb {
+            color: var(--neon-yellow);
+            animation: bulbFlicker 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wireFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes wireSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        @keyframes musicBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes starTwinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes moonPhase {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.9); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes lightningFlash {
+            0%, 90%, 100% { opacity: 0.2; }
+            5%, 15% { opacity: 1; transform: scale(1.3); }
+        }
+
+        @keyframes bulbFlicker {
+            0%, 100% { opacity: 0.5; }
+            10%, 30%, 50%, 70%, 90% { opacity: 1; }
+            20%, 40%, 60%, 80% { opacity: 0.3; }
+        }
+
+        /* Floating emoji animations */
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: emojiFloat 5s ease-in-out infinite;
+            opacity: 0.8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .floating-emoji:hover {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(-15px) rotate(240deg); }
+        }
+
+        /* Text overlay for readability */
+        .text-overlay {
+            background: var(--text-overlay);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600"><rect fill="%23000a0f" width="1000" height="600"/><polygon fill="%23001122" points="0,600 200,400 400,500 600,300 800,450 1000,200 1000,600"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { 
+                text-shadow: 
+                    0 0 10px var(--neon-pink),
+                    0 0 20px var(--neon-pink),
+                    0 0 40px var(--neon-pink);
+            }
+            to { 
+                text-shadow: 
+                    0 0 5px var(--neon-pink),
+                    0 0 10px var(--neon-pink),
+                    0 0 20px var(--neon-pink),
+                    0 0 40px var(--neon-purple);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: var(--neon-blue);
+        }
+
+        /* Section styling */
+        .story-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .story-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--text-overlay);
+            z-index: -1;
+        }
+
+        .chapter-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+
+        .story-emojis {
+            font-size: 2rem;
+            margin: 1rem 0;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .story-emojis span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            animation: emojiPulse 3s ease-in-out infinite;
+        }
+
+        .story-emojis span:hover {
+            transform: scale(1.5) rotate(360deg);
+        }
+
+        @keyframes emojiPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Special effects for each section */
+        .dream-section {
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .love-section {
+            background: 
+                radial-gradient(circle at 70% 30%, rgba(255, 105, 180, 0.1) 0%, transparent 50%);
+        }
+
+        .sleep-section {
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.1) 0%, transparent 50%);
+        }
+
+        .music-section {
+            background: 
+                radial-gradient(circle at 40% 60%, rgba(0, 191, 255, 0.1) 0%, transparent 50%);
+        }
+
+        /* Character images */
+        .character-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            border: 4px solid var(--neon-pink);
+            box-shadow: 
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                inset 0 0 20px rgba(255, 105, 180, 0.1);
+            margin: 1rem auto;
+            display: block;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .character-image:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 30px var(--neon-pink),
+                0 0 60px var(--neon-pink),
+                inset 0 0 30px rgba(255, 105, 180, 0.2);
+        }
+
+        .dream-section .character-image {
+            border-color: var(--neon-yellow);
+            box-shadow: 
+                0 0 20px var(--neon-yellow),
+                0 0 40px var(--neon-yellow),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .love-section .character-image {
+            border-color: var(--neon-pink);
+            box-shadow: 
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                inset 0 0 20px rgba(255, 105, 180, 0.1);
+        }
+
+        .sleep-section .character-image {
+            border-color: var(--neon-purple);
+            box-shadow: 
+                0 0 20px var(--neon-purple),
+                0 0 40px var(--neon-purple),
+                inset 0 0 20px rgba(157, 78, 221, 0.1);
+        }
+
+        .music-section .character-image {
+            border-color: var(--neon-blue);
+            box-shadow: 
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--neon-blue),
+                inset 0 0 20px rgba(0, 191, 255, 0.1);
+        }
+
+        /* History images */
+        .history-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            border: 3px solid var(--neon-green);
+            box-shadow: 
+                0 0 15px var(--neon-green),
+                0 0 30px var(--neon-green),
+                inset 0 0 15px rgba(0, 255, 127, 0.1);
+            margin: 1rem;
+            display: block;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .history-image:hover {
+            transform: scale(1.2);
+            box-shadow: 
+                0 0 25px var(--neon-green),
+                0 0 50px var(--neon-green),
+                inset 0 0 25px rgba(0, 255, 127, 0.2);
+        }
+
+        /* Image container for better layout */
+        .story-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .story-text-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item:hover {
+            background: var(--neon-pink);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            animation: navIconSpin 4s linear infinite;
+        }
+
+        @keyframes navIconSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* History Section */
+        .history-section {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 0;
+            position: relative;
+            background: 
+                radial-gradient(circle at 25% 75%, rgba(0, 255, 127, 0.1) 0%, transparent 50%);
+        }
+
+        .history-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            text-align: center;
+        }
+
+        .history-title {
+            font-size: 0.9rem;
+            color: var(--neon-green);
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-icon {
+            font-size: 2rem;
+            color: var(--neon-pink);
+            animation: footerIconFloat 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .footer-icon:hover {
+            transform: scale(1.3);
+        }
+
+        @keyframes footerIconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--neon-pink);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            z-index: 1000;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .chapter-title {
+                font-size: 2rem;
+            }
+            
+            .character-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .history-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .story-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .story-card {
+                padding: 2rem;
+            }
+            
+            .navigation {
+                position: relative;
+                top: auto;
+                right: auto;
+                flex-direction: row;
+                justify-content: center;
+                margin: 2rem 0;
+            }
+            
+            .wire-icon {
+                font-size: 1.2rem;
+            }
+            
+            .floating-emoji {
+                font-size: 1.5rem;
+            }
+            
+            .history-grid {
+                gap: 1.5rem;
+            }
+        }
+
+        /* SVG Animations */
+        .svg-animation {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.3;
+        }
+
+        .rainbow-drop {
+            top: 20%;
+            right: 10%;
+            animation: rainbowPulse 4s ease-in-out infinite;
+        }
+
+        .heart-wave {
+            top: 30%;
+            left: 5%;
+            animation: heartWave 3s ease-in-out infinite;
+        }
+
+        .star-galaxy {
+            bottom: 20%;
+            right: 15%;
+            animation: galaxySpin 6s linear infinite;
+        }
+
+        .sound-wave {
+            bottom: 30%;
+            left: 10%;
+            animation: soundPulse 2s ease-in-out infinite;
+        }
+
+        .lightning-bolt {
+            top: 15%;
+            left: 20%;
+            animation: lightningStrike 3s ease-in-out infinite;
+        }
+
+        .bulb-glow {
+            bottom: 40%;
+            right: 25%;
+            animation: bulbGlow 2.5s ease-in-out infinite;
+        }
+
+        .dream-sparkles {
+            top: 25%;
+            right: 30%;
+            animation: sparkleEffect 4s ease-in-out infinite;
+        }
+
+        .love-hearts {
+            bottom: 35%;
+            left: 15%;
+            animation: heartFloat 3.5s ease-in-out infinite;
+        }
+
+        @keyframes rainbowPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.7; }
+        }
+
+        @keyframes heartWave {
+            0%, 100% { transform: translateX(0px) scale(1); }
+            50% { transform: translateX(20px) scale(1.1); }
+        }
+
+        @keyframes galaxySpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes soundPulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        @keyframes lightningStrike {
+            0%, 90%, 100% { opacity: 0.2; }
+            5%, 15% { opacity: 1; transform: scale(1.3); }
+        }
+
+        @keyframes bulbGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        @keyframes sparkleEffect {
+            0%, 100% { opacity: 0.4; transform: rotate(0deg) scale(1); }
+            50% { opacity: 0.9; transform: rotate(180deg) scale(1.2); }
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        /* Container styles for standalone deployment */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <a href="#home" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>Home</span>
+        </a>
+        <a href="#gallery" class="nav-item">
+            <i class="fas fa-camera nav-icon"></i>
+            <span>IVE</span>
+        </a>
+        <a href="#music" class="nav-item">
+            <i class="fas fa-music nav-icon"></i>
+            <span>Lovely cookie</span>
+        </a>
+        <a href="#diary" class="nav-item">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Dream Diary</span>
+        </a>
+        <a href="#about" class="nav-item">
+            <i class="fas fa-heart nav-icon"></i>
+            <span>Music</span>
+        </a>
+    </nav>
+
+    <!-- Wire icons scattered throughout -->
+    <div class="wire-icon pencil" style="top: 15%; left: 10%;"><i class="fas fa-pencil-alt"></i></div>
+    <div class="wire-icon heart" style="top: 25%; right: 15%;"><i class="fas fa-heart"></i></div>
+    <div class="wire-icon music" style="top: 35%; left: 20%;"><i class="fas fa-music"></i></div>
+    <div class="wire-icon star" style="top: 45%; right: 25%;"><i class="fas fa-star"></i></div>
+    <div class="wire-icon moon" style="top: 55%; left: 15%;"><i class="fas fa-moon"></i></div>
+    <div class="wire-icon pencil" style="bottom: 30%; right: 20%;"><i class="fas fa-feather-alt"></i></div>
+    <div class="wire-icon heart" style="bottom: 40%; left: 25%;"><i class="fas fa-heart"></i></div>
+    <div class="wire-icon music" style="top: 65%; right: 10%;"><i class="fas fa-drum"></i></div>
+    <div class="wire-icon star" style="bottom: 50%; right: 30%;"><i class="fas fa-magic"></i></div>
+    <div class="wire-icon moon" style="top: 75%; left: 5%;"><i class="fas fa-cloud-moon"></i></div>
+    <div class="wire-icon lightning" style="top: 12%; right: 8%;"><i class="fas fa-bolt"></i></div>
+    <div class="wire-icon bulb" style="bottom: 60%; left: 8%;"><i class="fas fa-lightbulb"></i></div>
+    <div class="wire-icon lightning" style="bottom: 25%; right: 5%;"><i class="fas fa-flash"></i></div>
+    <div class="wire-icon bulb" style="top: 80%; right: 15%;"><i class="fas fa-sun"></i></div>
+
+    <!-- Floating emojis -->
+    <div class="floating-emoji" style="top: 20%; left: 5%;">🌈</div>
+    <div class="floating-emoji" style="top: 30%; right: 10%;">💫</div>
+    <div class="floating-emoji" style="top: 50%; left: 8%;">💖</div>
+    <div class="floating-emoji" style="bottom: 25%; right: 12%;">🌸</div>
+    <div class="floating-emoji" style="bottom: 35%; left: 18%;">⭐</div>
+    <div class="floating-emoji" style="top: 60%; right: 8%;">🎵</div>
+    <div class="floating-emoji" style="bottom: 45%; left: 12%;">🌙</div>
+    <div class="floating-emoji" style="top: 40%; right: 18%;">✨</div>
+    <div class="floating-emoji" style="top: 70%; left: 3%;">💡</div>
+    <div class="floating-emoji" style="bottom: 55%; right: 22%;">⚡</div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1 class="hero-title">🌟 유나와 쿠키의 마법 같은 이야기</h1>
+            <p class="hero-subtitle">꿈과 사랑이 만나는 특별한 순간들</p>
+        </div>
+        <div class="scroll-indicator">⬇️</div>
+        
+        <!-- More wire icons for hero -->
+        <div class="wire-icon star" style="top: 20%; right: 20%;"><i class="fas fa-magic"></i></div>
+        <div class="wire-icon heart" style="bottom: 25%; left: 15%;"><i class="fas fa-heart"></i></div>
+        <div class="wire-icon music" style="top: 30%; left: 25%;"><i class="fas fa-guitar"></i></div>
+        <div class="wire-icon lightning" style="bottom: 35%; right: 12%;"><i class="fas fa-bolt"></i></div>
+        <div class="wire-icon bulb" style="top: 40%; left: 12%;"><i class="fas fa-lightbulb"></i></div>
+    </section>
+
+    <!-- Chapter 1: 꿈꾸는 소녀 유나 -->
+    <section class="story-section dream-section" id="gallery">
+        <div class="container">
+            <div class="story-card">
+                <div class="story-content">
+                    <div class="story-text-content">
+                        <h2 class="chapter-title">🌟 Chapter 1: 꿈꾸는 소녀 유나</h2>
+                        <div class="story-text text-overlay">
+                            <p>유나는 창가의 작은 책상에서 세상을 그려낸다.</p>
+                            <p>어느 오후, 딸기 스무디를 마시다 실수로 컵을 엎질렀을 때, 스며든 물방울들이 일기장 위에서 무지개 빛으로 번졌다.</p>
+                            <p>그 순간 평범했던 글씨들이 살아 움직이는 듯 춤추기 시작했다.</p>
+                            <p><strong>'이제 내 모든 꿈이 현실이 될 거야'</strong></p>
+                            <p>그녀가 다짐했을 때, 창밖에서 들려온 쿠키의 작은 야옹소리.</p>
+                        </div>
+                        <div class="story-emojis">
+                            <span>🌈</span><span>💫</span><span>📖</span>
+                        </div>
+                    </div>
+                    <img src="y_front.JPG" alt="유나의 정면 메인사진" class="character-image">
+                </div>
+            </div>
+        </div>
+        
+        <!-- SVG Animation -->
+        <div class="svg-animation rainbow-drop">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="30" fill="none" stroke="url(#rainbow)" stroke-width="3"/>
+                <defs>
+                    <linearGradient id="rainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#ff0000"/>
+                        <stop offset="16.66%" style="stop-color:#ff8000"/>
+                        <stop offset="33.33%" style="stop-color:#ffff00"/>
+                        <stop offset="50%" style="stop-color:#00ff00"/>
+                        <stop offset="66.66%" style="stop-color:#0080ff"/>
+                        <stop offset="83.33%" style="stop-color:#8000ff"/>
+                        <stop offset="100%" style="stop-color:#ff0080"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Dream sparkles SVG -->
+        <div class="svg-animation dream-sparkles">
+            <svg viewBox="0 0 100 100">
+                <g>
+                    <polygon points="50,10 55,35 80,35 60,50 70,75 50,60 30,75 40,50 20,35 45,35" fill="var(--neon-yellow)" opacity="0.6"/>
+                    <circle cx="25" cy="25" r="3" fill="var(--neon-blue)" opacity="0.8"/>
+                    <circle cx="75" cy="75" r="2" fill="var(--neon-pink)" opacity="0.7"/>
+                </g>
+            </svg>
+        </div>
+        
+        <!-- More wire icons -->
+        <div class="wire-icon pencil" style="top: 10%; right: 5%;"><i class="fas fa-palette"></i></div>
+        <div class="wire-icon star" style="bottom: 20%; left: 10%;"><i class="fas fa-sparkles"></i></div>
+        <div class="wire-icon pencil" style="top: 60%; right: 30%;"><i class="fas fa-pen-fancy"></i></div>
+        <div class="wire-icon bulb" style="top: 35%; left: 8%;"><i class="fas fa-lightbulb"></i></div>
+        <div class="wire-icon lightning" style="bottom: 45%; right: 8%;"><i class="fas fa-bolt"></i></div>
+    </section>
+
+    <!-- Chapter 2: 사랑의 언어 유나♥쿠키 -->
+    <section class="story-section love-section" id="music">
+        <div class="container">
+            <div class="story-card">
+                <div class="story-content">
+                    <div class="story-text-content">
+                        <h2 class="chapter-title">💕 Chapter 2: 사랑의 언어 유나♥쿠키</h2>
+                        <div class="story-text text-overlay">
+                            <p>쿠키는 유나의 마음을 읽는 초능력을 가졌다.</p>
+                            <p>어느 힘든 하루, 유나가 현관문을 열자마자 쿠키가 달려왔고, 코끝이 맞닿는 순간 온 세상이 핑크빛으로 물들었다.</p>
+                            <p>그 찰나에 모든 걱정이 솜사탕처럼 녹아내렸다.</p>
+                            <p><strong>'너와 함께라면 어떤 날도 견딜 수 있어'</strong></p>
+                            <p>유나가 속삭였을 때, 쿠키의 눈에서 반짝인 작은 별빛들.</p>
+                        </div>
+                        <div class="story-emojis">
+                            <span>💖</span><span>🌸</span><span>✨</span>
+                        </div>
+                    </div>
+                    <img src="y_c_kiss.JPG" alt="유나와 쿠키가 뽀뽀사진" class="character-image">
+                </div>
+            </div>
+        </div>
+        
+        <!-- SVG Animation -->
+        <div class="svg-animation heart-wave">
+            <svg viewBox="0 0 100 100">
+                <path d="M50,80 C50,80 20,50 20,35 C20,25 30,20 40,25 C45,15 55,15 60,25 C70,20 80,25 80,35 C80,50 50,80 50,80 Z" 
+                      fill="var(--neon-pink)" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <!-- Love hearts SVG -->
+        <div class="svg-animation love-hearts">
+            <svg viewBox="0 0 100 100">
+                <g>
+                    <path d="M30,60 C30,60 15,45 15,35 C15,30 20,25 25,30 C27,20 33,20 35,30 C40,25 45,30 C45,35 C45,45 30,60 30,60 Z" 
+                          fill="var(--neon-pink)" opacity="0.7"/>
+                    <path d="M70,40 C70,40 60,30 60,25 C60,22 62,20 65,22 C66,18 70,18 71,22 C74,20 76,22 76,25 C76,30 70,40 70,40 Z" 
+                          fill="var(--neon-purple)" opacity="0.8"/>
+                </g>
+            </svg>
+        </div>
+        
+        <!-- More wire icons -->
+        <div class="wire-icon heart" style="top: 20%; left: 15%;"><i class="fas fa-kiss-wink-heart"></i></div>
+        <div class="wire-icon star" style="bottom: 15%; right: 20%;"><i class="fas fa-heart-broken"></i></div>
+        <div class="wire-icon heart" style="top: 40%; right: 10%;"><i class="fas fa-heartbeat"></i></div>
+        <div class="wire-icon heart" style="bottom: 35%; left: 5%;"><i class="fas fa-hand-holding-heart"></i></div>
+        <div class="wire-icon lightning" style="top: 55%; left: 25%;"><i class="fas fa-bolt"></i></div>
+        <div class="wire-icon bulb" style="bottom: 50%; right: 35%;"><i class="fas fa-heart"></i></div>
+    </section>
+
+    <!-- Chapter 3: 꿈나라 여행자들 유나&쿠키 -->
+    <section class="story-section sleep-section" id="diary">
+        <div class="container">
+            <div class="story-card">
+                <div class="story-content">
+                    <div class="story-text-content">
+                        <h2 class="chapter-title">🌙 Chapter 3: 꿈나라 여행자들 유나&쿠키</h2>
+                        <div class="story-text text-overlay">
+                            <p>밤 12시, 둘만의 비밀 여행이 시작된다.</p>
+                            <p>어느 보름달 밤, 유나가 잠들자 쿠키가 조용히 다가와, 함께 이불 속으로 들어가는 순간 방 전체가 우주로 변했다.</p>
+                            <p>별들이 천장에서 춤추고 달빛이 베개를 감쌌다.</p>
+                            <p><strong>'꿈속에서도 너와 함께할 수 있어서 행복해'</strong></p>
+                            <p>유나가 꿈속에서 말했을 때, 쿠키의 털에서 반짝인 은하수.</p>
+                        </div>
+                        <div class="story-emojis">
+                            <span>🌙</span><span>⭐</span><span>🛌</span>
+                        </div>
+                    </div>
+                    <img src="y_c_sleep.JPG" alt="유나와 쿠키가 자는사진" class="character-image">
+                </div>
+            </div>
+        </div>
+        
+        <!-- SVG Animation -->
+        <div class="svg-animation star-galaxy">
+            <svg viewBox="0 0 100 100">
+                <g>
+                    <circle cx="30" cy="30" r="2" fill="var(--neon-yellow)"/>
+                    <circle cx="70" cy="20" r="1.5" fill="var(--neon-blue)"/>
+                    <circle cx="60" cy="60" r="2.5" fill="var(--neon-purple)"/>
+                    <circle cx="20" cy="70" r="1" fill="var(--neon-pink)"/>
+                    <circle cx="80" cy="80" r="2" fill="var(--neon-green)"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Lightning bolt SVG -->
+        <div class="svg-animation lightning-bolt">
+            <svg viewBox="0 0 100 100">
+                <path d="M40,10 L30,40 L50,35 L35,70 L60,45 L45,50 L60,20 Z" 
+                      fill="var(--neon-blue)" opacity="0.8"/>
+            </svg>
+        </div>
+        
+        <!-- More wire icons -->
+        <div class="wire-icon moon" style="top: 30%; left: 5%;"><i class="fas fa-cloud-moon"></i></div>
+        <div class="wire-icon star" style="bottom: 25%; right: 15%;"><i class="fas fa-meteor"></i></div>
+        <div class="wire-icon moon" style="top: 50%; right: 25%;"><i class="fas fa-bed"></i></div>
+        <div class="wire-icon star" style="bottom: 45%; left: 20%;"><i class="fas fa-star-of-life"></i></div>
+        <div class="wire-icon lightning" style="top: 15%; right: 35%;"><i class="fas fa-bolt"></i></div>
+        <div class="wire-icon bulb" style="bottom: 60%; left: 30%;"><i class="fas fa-moon"></i></div>
+    </section>
+
+    <!-- Chapter 4: 하모니 메이커즈 유나×쿠키 -->
+    <section class="story-section music-section" id="about">
+        <div class="container">
+            <div class="story-card">
+                <div class="story-content">
+                    <div class="story-text-content">
+                        <h2 class="chapter-title">🎵 Chapter 4: 하모니 메이커즈 유나×쿠키</h2>
+                        <div class="story-text text-overlay">
+                            <p>실로폰 앞에 앉으면 마법이 시작된다.</p>
+                            <p>어느 일요일 오후, 유나가 새 곡을 연주하자 쿠키가 뛰어올라, 발톱이 건반을 스치는 순간 공기 중에 음표들이 춤췄다.</p>
+                            <p>실수마저도 완벽한 선율이 되어 방 안을 가득 채웠다.</p>
+                            <p><strong>'우리만의 음악이 세상에서 가장 아름다워'</strong></p>
+                            <p>유나가 웃었을 때, 쿠키의 꼬리에서 나온 리듬감 있는 파동들.</p>
+                        </div>
+                        <div class="story-emojis">
+                            <span>🎼</span><span>🎹</span><span>🎶</span>
+                        </div>
+                    </div>
+                    <img src="y_c_play.JPG" alt="유나와 쿠키가 실로폰 치는사진" class="character-image">
+                </div>
+            </div>
+        </div>
+        
+        <!-- SVG Animation -->
+        <div class="svg-animation sound-wave">
+            <svg viewBox="0 0 100 100">
+                <rect x="10" y="40" width="5" height="20" fill="var(--neon-blue)"/>
+                <rect x="20" y="30" width="5" height="40" fill="var(--neon-green)"/>
+                <rect x="30" y="20" width="5" height="60" fill="var(--neon-yellow)"/>
+                <rect x="40" y="35" width="5" height="30" fill="var(--neon-orange)"/>
+                <rect x="50" y="25" width="5" height="50" fill="var(--neon-pink)"/>
+                <rect x="60" y="45" width="5" height="10" fill="var(--neon-purple)"/>
+                <rect x="70" y="30" width="5" height="40" fill="var(--neon-blue)"/>
+                <rect x="80" y="35" width="5" height="30" fill="var(--neon-green)"/>
+            </svg>
+        </div>
+
+        <!-- Bulb glow SVG -->
+        <div class="svg-animation bulb-glow">
+            <svg viewBox="0 0 100 100">
+                <g>
+                    <circle cx="50" cy="40" r="15" fill="var(--neon-yellow)" opacity="0.6"/>
+                    <rect x="45" y="55" width="10" height="8" fill="var(--neon-orange)" opacity="0.7"/>
+                    <rect x="43" y="63" width="14" height="4" fill="var(--neon-orange)" opacity="0.5"/>
+                    <line x1="35" y1="25" x2="40" y2="30" stroke="var(--neon-yellow)" stroke-width="2"/>
+                    <line x1="65" y1="25" x2="60" y2="30" stroke="var(--neon-yellow)" stroke-width="2"/>
+                    <line x1="30" y1="40" x2="35" y2="40" stroke="var(--neon-yellow)" stroke-width="2"/>
+                    <line x1="70" y1="40" x2="65" y2="40" stroke="var(--neon-yellow)" stroke-width="2"/>
+                </g>
+            </svg>
+        </div>
+        
+        <!-- More wire icons -->
+        <div class="wire-icon music" style="top: 15%; left: 20%;"><i class="fas fa-drum"></i></div>
+        <div class="wire-icon music" style="bottom: 20%; right: 10%;"><i class="fas fa-guitar"></i></div>
+        <div class="wire-icon music" style="top: 45%; left: 5%;"><i class="fas fa-microphone"></i></div>
+        <div class="wire-icon music" style="bottom: 35%; left: 25%;"><i class="fas fa-headphones"></i></div>
+        <div class="wire-icon music" style="top: 65%; right: 20%;"><i class="fas fa-compact-disc"></i></div>
+        <div class="wire-icon lightning" style="bottom: 55%; right: 35%;"><i class="fas fa-bolt"></i></div>
+        <div class="wire-icon bulb" style="top: 25%; right: 40%;"><i class="fas fa-lightbulb"></i></div>
+    </section>
+
+    <!-- History Section -->
+    <section class="history-section">
+        <div class="container">
+            <h2 class="chapter-title" style="text-align: center; margin-bottom: 2rem;">📸 유나의 앨범</h2>
+            <div class="history-grid">
+                <div class="history-item">
+                    <img src="c_front.JPG" alt="쿠키 정면" class="history-image">
+                    <p class="history-title">맹수 쿠키</p>
+                </div>
+                <div class="history-item">
+                    <img src="c_foot.JPG" alt="쿠키발" class="history-image">
+                    <p class="history-title">솜방망이</p>
+                </div>
+                <div class="history-item">
+                    <img src="y_japan.JPG" alt="유나 일본여행" class="history-image">
+                    <p class="history-title">in the japan</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- More wire icons for history section -->
+        <div class="wire-icon star" style="top: 20%; left: 10%;"><i class="fas fa-camera"></i></div>
+        <div class="wire-icon heart" style="top: 30%; right: 15%;"><i class="fas fa-plane"></i></div>
+        <div class="wire-icon lightning" style="bottom: 25%; left: 20%;"><i class="fas fa-paw"></i></div>
+        <div class="wire-icon bulb" style="bottom: 35%; right: 25%;"><i class="fas fa-map-marked-alt"></i></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>🌟 유나와 쿠키의 마법 같은 세상 🌟</h3>
+        <p>사랑과 꿈이 만나는 특별한 공간</p>
+        <div class="footer-icons">
+            <i class="fas fa-infinity footer-icon"></i>
+            <i class="fas fa-star footer-icon"></i>
+            <i class="fas fa-cat footer-icon"></i>
+            <i class="fas fa-feather footer-icon"></i>
+            <i class="fas fa-heart footer-icon"></i>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize GSAP and ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize animations when page loads
+        window.addEventListener('load', function() {
+            initAnimations();
+        });
+
+        function initAnimations() {
+            // Hero title animation
+            gsap.from('.hero-title', {
+                opacity: 0,
+                y: 50,
+                duration: 2,
+                ease: "power2.out"
+            });
+
+            gsap.from('.hero-subtitle', {
+                opacity: 0,
+                y: 30,
+                duration: 1.5,
+                delay: 0.5,
+                ease: "power2.out"
+            });
+
+            // Story sections animation
+            gsap.utils.toArray('.story-card').forEach((card, index) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    x: index % 2 === 0 ? -100 : 100,
+                    duration: 1.5,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+
+            // Character images animation
+            gsap.utils.toArray('.character-image').forEach((image, index) => {
+                gsap.fromTo(image, 
+                    { opacity: 0, scale: 0.8 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: image,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // History images animation
+            gsap.utils.toArray('.history-image').forEach((image, index) => {
+                gsap.fromTo(image,
+                    { opacity: 0, scale: 0.8 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1,
+                        delay: index * 0.3,
+                        ease: "back.out(1.7)",
+                        scrollTrigger: {
+                            trigger: image,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // Wire icons entrance animation
+            gsap.utils.toArray('.wire-icon').forEach((icon, index) => {
+                gsap.from(icon, {
+                    opacity: 0,
+                    scale: 0,
+                    rotation: 360,
+                    duration: 1,
+                    delay: index * 0.1,
+                    ease: "back.out(1.7)"
+                });
+            });
+
+            // Floating emojis entrance animation
+            gsap.utils.toArray('.floating-emoji').forEach((emoji, index) => {
+                gsap.from(emoji, {
+                    opacity: 0,
+                    y: 100,
+                    duration: 1.5,
+                    delay: index * 0.2,
+                    ease: "bounce.out"
+                });
+            });
+
+            // Scroll indicator hide
+            ScrollTrigger.create({
+                trigger: '.dream-section',
+                start: "top 80%",
+                onEnter: () => gsap.to('.scroll-indicator', { opacity: 0, duration: 0.5 }),
+                onLeaveBack: () => gsap.to('.scroll-indicator', { opacity: 1, duration: 0.5 })
+            });
+        }
+
+        // Emoji click effects
+        document.querySelectorAll('.story-emojis span').forEach(emoji => {
+            emoji.addEventListener('click', function() {
+                gsap.to(this, {
+                    scale: 2,
+                    rotation: 720,
+                    duration: 0.5,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(this, { scale: 1, rotation: 0, duration: 0.3 });
+                    }
+                });
+            });
+        });
+
+        // Floating emoji click effects
+        document.querySelectorAll('.floating-emoji').forEach(emoji => {
+            emoji.addEventListener('click', function() {
+                gsap.to(this, {
+                    scale: 2,
+                    rotation: 360,
+                    y: -50,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(this, { scale: 1, rotation: 0, y: 0, duration: 0.5 });
+                    }
+                });
+            });
+        });
+
+        // Character image click effects
+        document.querySelectorAll('.character-image').forEach((image, index) => {
+            image.addEventListener('click', function() {
+                const section = this.closest('.story-section');
+                
+                if (section.classList.contains('dream-section')) {
+                    // Rainbow effect for 유나
+                    gsap.to(this, {
+                        scale: 1.2,
+                        rotation: 360,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            gsap.to(this, { scale: 1, rotation: 0, duration: 0.5 });
+                        }
+                    });
+                    
+                    // Rainbow particles
+                    for (let i = 0; i < 15; i++) {
+                        const particle = document.createElement('div');
+                        particle.style.cssText = `
+                            position: absolute;
+                            width: 6px;
+                            height: 6px;
+                            background: hsl(${i * 24}, 100%, 50%);
+                            border-radius: 50%;
+                            pointer-events: none;
+                            z-index: 1000;
+                        `;
+                        
+                        const rect = this.getBoundingClientRect();
+                        particle.style.left = (rect.left + rect.width / 2) + 'px';
+                        particle.style.top = (rect.top + rect.height / 2) + 'px';
+                        
+                        document.body.appendChild(particle);
+                        
+                        gsap.to(particle, {
+                            x: (Math.random() - 0.5) * 300,
+                            y: (Math.random() - 0.5) * 300,
+                            opacity: 0,
+                            duration: 2,
+                            ease: "power2.out",
+                            onComplete: () => {
+                                document.body.removeChild(particle);
+                            }
+                        });
+                    }
+                    
+                } else if (section.classList.contains('love-section')) {
+                    // Heart effect for 사랑
+                    gsap.to(this, {
+                        scale: 1.3,
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.3)",
+                        onComplete: () => {
+                            gsap.to(this, { scale: 1, duration: 0.4 });
+                        }
+                    });
+                    
+                    // Heart particles
+                    for (let i = 0; i < 10; i++) {
+                        const heart = document.createElement('div');
+                        heart.innerHTML = '💖';
+                        heart.style.cssText = `
+                            position: absolute;
+                            font-size: 1.5rem;
+                            pointer-events: none;
+                            z-index: 1000;
+                        `;
+                        
+                        const rect = this.getBoundingClientRect();
+                        heart.style.left = (rect.left + rect.width / 2) + 'px';
+                        heart.style.top = (rect.top + rect.height / 2) + 'px';
+                        
+                        document.body.appendChild(heart);
+                        
+                        gsap.to(heart, {
+                            x: (Math.random() - 0.5) * 200,
+                            y: -100 - Math.random() * 100,
+                            opacity: 0,
+                            duration: 1.5,
+                            ease: "power2.out",
+                            onComplete: () => {
+                                document.body.removeChild(heart);
+                            }
+                        });
+                    }
+                    
+                } else if (section.classList.contains('sleep-section')) {
+                    // Star effect for 꿈나라
+                    gsap.to(this, {
+                        scale: 1.1,
+                        rotation: 180,
+                        duration: 1,
+                        ease: "power2.inOut",
+                        onComplete: () => {
+                            gsap.to(this, { scale: 1, rotation: 360, duration: 0.5 });
+                        }
+                    });
+                    
+                    // Star particles
+                    for (let i = 0; i < 12; i++) {
+                        const star = document.createElement('div');
+                        star.innerHTML = '⭐';
+                        star.style.cssText = `
+                            position: absolute;
+                            font-size: 1.2rem;
+                            pointer-events: none;
+                            z-index: 1000;
+                        `;
+                        
+                        const rect = this.getBoundingClientRect();
+                        star.style.left = (rect.left + rect.width / 2) + 'px';
+                        star.style.top = (rect.top + rect.height / 2) + 'px';
+                        
+                        document.body.appendChild(star);
+                        
+                        gsap.to(star, {
+                            x: (Math.random() - 0.5) * 250,
+                            y: (Math.random() - 0.5) * 250,
+                            rotation: 360,
+                            opacity: 0,
+                            duration: 2,
+                            ease: "power2.out",
+                            onComplete: () => {
+                                document.body.removeChild(star);
+                            }
+                        });
+                    }
+                    
+                } else if (section.classList.contains('music-section')) {
+                    // Music note effect for 하모니
+                    gsap.to(this, {
+                        scale: 1.2,
+                        y: -20,
+                        duration: 0.4,
+                        ease: "power2.out",
+                        yoyo: true,
+                        repeat: 3,
+                        onComplete: () => {
+                            gsap.to(this, { scale: 1, y: 0, duration: 0.3 });
+                        }
+                    });
+                    
+                    // Music note particles
+                    const notes = ['🎵', '🎶', '🎼', '🎹'];
+                    for (let i = 0; i < 8; i++) {
+                        const note = document.createElement('div');
+                        note.innerHTML = notes[Math.floor(Math.random() * notes.length)];
+                        note.style.cssText = `
+                            position: absolute;
+                            font-size: 1.3rem;
+                            pointer-events: none;
+                            z-index: 1000;
+                        `;
+                        
+                        const rect = this.getBoundingClientRect();
+                        note.style.left = (rect.left + rect.width / 2) + 'px';
+                        note.style.top = (rect.top + rect.height / 2) + 'px';
+                        
+                        document.body.appendChild(note);
+                        
+                        gsap.to(note, {
+                            x: (Math.random() - 0.5) * 200,
+                            y: -150 - Math.random() * 50,
+                            rotation: (Math.random() - 0.5) * 360,
+                            opacity: 0,
+                            duration: 1.8,
+                            ease: "power2.out",
+                            onComplete: () => {
+                                document.body.removeChild(note);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        // History image click effects
+        document.querySelectorAll('.history-image').forEach((image, index) => {
+            image.addEventListener('click', function() {
+                gsap.to(this, {
+                    scale: 1.4,
+                    rotation: 360,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(this, { scale: 1, rotation: 0, duration: 0.5 });
+                    }
+                });
+                
+                // Create memory sparkles
+                for (let i = 0; i < 8; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = ['✨', '💫', '🌟'][Math.floor(Math.random() * 3)];
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        font-size: 1.2rem;
+                        pointer-events: none;
+                        z-index: 1000;
+                    `;
+                    
+                    const rect = this.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+                    sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    gsap.to(sparkle, {
+                        x: (Math.random() - 0.5) * 150,
+                        y: (Math.random() - 0.5) * 150,
+                        rotation: 360,
+                        opacity: 0,
+                        duration: 1.5,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            document.body.removeChild(sparkle);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Wire icon click effects
+        document.querySelectorAll('.wire-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                gsap.to(this, {
+                    scale: 1.5,
+                    rotation: 720,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(this, { scale: 1, rotation: 0, duration: 0.4 });
+                    }
+                });
+                
+                // Create sparkle effect
+                for (let i = 0; i < 5; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        font-size: 1rem;
+                        pointer-events: none;
+                        z-index: 1000;
+                    `;
+                    
+                    const rect = this.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+                    sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    gsap.to(sparkle, {
+                        x: (Math.random() - 0.5) * 100,
+                        y: (Math.random() - 0.5) * 100,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            document.body.removeChild(sparkle);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Footer icon click effects
+        document.querySelectorAll('.footer-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                gsap.to(this, {
+                    scale: 1.5,
+                    rotation: 360,
+                    duration: 0.6,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(this, { scale: 1, rotation: 0, duration: 0.3 });
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Konami code easter egg
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                // Magic effect
+                document.body.style.animation = 'magicPower 3s infinite';
+                
+                // Create magical particles
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.innerHTML = ['✨', '🌟', '💫', '⭐'][Math.floor(Math.random() * 4)];
+                    particle.style.cssText = `
+                        position: fixed;
+                        font-size: 2rem;
+                        pointer-events: none;
+                        z-index: 9999;
+                        left: ${Math.random() * 100}vw;
+                        top: ${Math.random() * 100}vh;
+                    `;
+                    
+                    document.body.appendChild(particle);
+                    
+                    gsap.to(particle, {
+                        y: -100,
+                        opacity: 0,
+                        duration: 3,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            document.body.removeChild(particle);
+                        }
+                    });
+                }
+                
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 3000);
+            }
+        });
+
+        // Magic effect keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes magicPower {
+                0% { filter: hue-rotate(0deg) contrast(1) brightness(1); }
+                25% { filter: hue-rotate(90deg) contrast(1.5) brightness(1.2); }
+                50% { filter: hue-rotate(180deg) contrast(2) brightness(1.5); }
+                75% { filter: hue-rotate(270deg) contrast(1.5) brightness(1.2); }
+                100% { filter: hue-rotate(360deg) contrast(1) brightness(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 
