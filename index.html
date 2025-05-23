@@ -2,7 +2,10 @@
 <html lang="ko" class="theme-dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>⏰ 유나와 쿠키의 시간여행: Time Travelers</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,6 +34,12 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
             background: var(--dark-bg);
@@ -38,6 +47,9 @@
             overflow-x: hidden;
             line-height: 1.6;
             font-size: 1.125rem;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
         }
 
         /* Background texture */
@@ -241,38 +253,34 @@
             position: absolute;
             background: rgba(0, 255, 255, 0.6);
             border-radius: 50%;
-            animation: particleFloat 15s infinite linear;
+            animation: float 10s infinite linear;
         }
 
         .particle:nth-child(2n) {
             background: rgba(255, 0, 255, 0.4);
-            animation-duration: 20s;
         }
 
         .particle:nth-child(3n) {
             background: rgba(255, 255, 0, 0.5);
-            animation-duration: 18s;
         }
 
         .particle:nth-child(4n) {
             background: rgba(255, 255, 255, 0.7);
-            animation-duration: 12s;
         }
 
-        @keyframes particleFloat {
+        @keyframes float {
             0% {
-                transform: translateY(100vh) translateX(0) scale(0);
+                transform: translateY(100vh) translateX(0);
                 opacity: 0;
             }
             10% {
                 opacity: 1;
-                transform: translateY(90vh) translateX(10px) scale(1);
             }
             90% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(-10vh) translateX(100px) scale(0);
+                transform: translateY(-100px) translateX(100px);
                 opacity: 0;
             }
         }
@@ -296,11 +304,13 @@
             justify-content: center;
             text-align: center;
             position: relative;
+            overflow: hidden;
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600"><rect fill="%23000a0f" width="1000" height="600"/><polygon fill="%23001122" points="0,600 200,400 400,500 600,300 800,450 1000,200 1000,600"/></svg>');
             background-size: cover;
             background-position: center;
+            width: 100%;
         }
 
         .hero-title {
@@ -454,6 +464,8 @@
             align-items: center;
             padding: 4rem 0;
             position: relative;
+            overflow: hidden;
+            width: 100%;
         }
 
         .story-card {
@@ -673,6 +685,16 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
+            html {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            body {
+                font-size: 1rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            
             .desktop-nav {
                 display: none;
             }
@@ -701,11 +723,13 @@
             
             .story-card {
                 padding: 2rem;
+                margin: 1rem;
             }
             
             .characters-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+                padding: 0 1rem;
             }
             
             .character-intro-image {
@@ -720,12 +744,84 @@
             .rotating-emoji.large {
                 font-size: 2rem;
             }
+            
+            .hero-section {
+                height: 100vh;
+                padding: 2rem 1rem;
+            }
+            
+            .story-section {
+                padding: 3rem 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+                max-width: 100%;
+            }
+            
+            /* 모바일에서 파티클 수 줄이기 */
+            .particle:nth-child(n+8) {
+                display: none;
+            }
         }
 
         @media (min-width: 769px) {
             .mobile-nav {
                 display: none;
             }
+        }
+
+        /* 추가 모바일 최적화 */
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .chapter-name {
+                font-size: 1.5rem;
+            }
+            
+            .story-card {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+            
+            .rotating-emoji {
+                font-size: 1.2rem;
+            }
+            
+            .rotating-emoji.large {
+                font-size: 1.8rem;
+            }
+            
+            /* 작은 화면에서 파티클 더 줄이기 */
+            .particle:nth-child(n+6) {
+                display: none;
+            }
+        }
+
+        /* 가로 스크롤 방지 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 뷰포트 고정 */
+        @viewport {
+            width: device-width;
+            zoom: 1.0;
+        }
+
+        /* iOS Safari 줌 방지 */
+        input, select, textarea {
+            font-size: 16px;
         }
 
         /* Glitch effect */
@@ -868,13 +964,10 @@
         <div class="rotating-emoji reverse" style="top: 25%; right: 15%;">⏰</div>
         <div class="rotating-emoji small" style="bottom: 30%; left: 20%;">🌟</div>
         <div class="floating-emoji" style="top: 40%; right: 25%;">✨</div>
-        <div class="rotating-emoji large" style="top: 60%; left: 10%;">🌀</div>
-        <div class="floating-emoji" style="bottom: 40%; right: 30%;">💫</div>
     </section>
 
     <!-- Characters Introduction Section -->
     <section id="characters" class="characters-intro">
-        <div class="particles"></div>
         <div class="container">
             <h2 class="characters-title">등장인물 소개</h2>
             <div class="characters-grid">
@@ -906,13 +999,10 @@
         <div class="rotating-emoji" style="top: 25%; left: 10%;">👥</div>
         <div class="floating-emoji" style="bottom: 20%; right: 15%;">🐾</div>
         <div class="rotating-emoji small reverse" style="top: 15%; right: 20%;">⏰</div>
-        <div class="floating-emoji" style="top: 60%; left: 25%;">✨</div>
-        <div class="rotating-emoji large" style="bottom: 40%; left: 5%;">🌟</div>
     </section>
 
     <!-- Chapter 1: 시간의 발견 -->
     <section id="discovery" class="story-section discovery-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -940,13 +1030,10 @@
         <div class="rotating-emoji small" style="top: 15%; right: 10%;">⏰</div>
         <div class="floating-emoji" style="bottom: 25%; left: 15%;">🔍</div>
         <div class="rotating-emoji reverse" style="top: 50%; left: 5%;">✨</div>
-        <div class="floating-emoji" style="top: 70%; right: 20%;">🌟</div>
-        <div class="rotating-emoji large" style="bottom: 10%; right: 25%;">🔮</div>
     </section>
 
     <!-- Chapter 2: 쿠키의 비밀 -->
     <section id="cookie" class="story-section cookie-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -974,13 +1061,10 @@
         <div class="rotating-emoji" style="top: 20%; left: 15%;">🐾</div>
         <div class="floating-emoji" style="bottom: 30%; right: 20%;">🔮</div>
         <div class="rotating-emoji small reverse" style="top: 60%; right: 10%;">⚡</div>
-        <div class="floating-emoji" style="top: 40%; left: 25%;">🌟</div>
-        <div class="rotating-emoji large" style="bottom: 15%; left: 10%;">🌀</div>
     </section>
 
     <!-- Chapter 3: 일본 여행 -->
     <section id="japan" class="story-section japan-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -1008,13 +1092,10 @@
         <div class="rotating-emoji reverse" style="top: 15%; right: 10%;">🏯</div>
         <div class="floating-emoji" style="top: 50%; left: 5%;">🌸</div>
         <div class="rotating-emoji small" style="bottom: 20%; right: 25%;">⛩️</div>
-        <div class="floating-emoji" style="top: 30%; right: 20%;">🙏</div>
-        <div class="rotating-emoji large" style="bottom: 40%; left: 15%;">🎋</div>
     </section>
 
     <!-- Chapter 4: 시간을 초월한 사랑 -->
     <section id="love" class="story-section love-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -1042,13 +1123,10 @@
         <div class="rotating-emoji" style="top: 25%; right: 15%;">💕</div>
         <div class="floating-emoji" style="bottom: 30%; left: 20%;">💖</div>
         <div class="rotating-emoji small reverse" style="top: 60%; left: 10%;">🌈</div>
-        <div class="floating-emoji" style="top: 40%; right: 25%;">🕯️</div>
-        <div class="rotating-emoji large" style="bottom: 15%; right: 5%;">💫</div>
     </section>
 
     <!-- Chapter 5: 미래 세계 -->
     <section id="future" class="story-section future-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -1076,13 +1154,10 @@
         <div class="rotating-emoji reverse" style="top: 20%; left: 10%;">🚀</div>
         <div class="floating-emoji" style="top: 60%; right: 15%;">🌃</div>
         <div class="rotating-emoji small" style="bottom: 25%; left: 20%;">💭</div>
-        <div class="floating-emoji" style="top: 40%; left: 25%;">✨</div>
-        <div class="rotating-emoji large" style="bottom: 40%; right: 10%;">🛸</div>
     </section>
 
     <!-- Chapter 6: 시간의 협주곡 -->
     <section id="music" class="story-section music-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="story-card">
                 <div class="chapter-content">
@@ -1110,13 +1185,10 @@
         <div class="rotating-emoji" style="top: 15%; left: 20%;">🎵</div>
         <div class="floating-emoji" style="bottom: 20%; right: 25%;">🎼</div>
         <div class="rotating-emoji small reverse" style="top: 50%; right: 10%;">🎭</div>
-        <div class="floating-emoji" style="top: 70%; left: 15%;">🌟</div>
-        <div class="rotating-emoji large" style="bottom: 40%; left: 5%;">🎪</div>
     </section>
 
     <!-- Ending Section -->
     <section id="ending" class="ending-section">
-        <div class="particles"></div>
         <div class="container">
             <div class="ending-content">
                 <h2 class="chapter-name">🌌 영원한 여행</h2>
@@ -1138,26 +1210,33 @@
         // Initialize GSAP and ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
 
-        // Create particles for each section
+        // Create particles for hero section only
         function createParticles() {
-            const particlesContainers = document.querySelectorAll('.particles');
+            const particlesContainer = document.querySelector('.particles');
+            if (!particlesContainer) return;
             
-            particlesContainers.forEach(container => {
-                const particleCount = 15; // 각 섹션당 15개의 파티클
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    
-                    // 랜덤 위치와 크기 설정
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.width = particle.style.height = (Math.random() * 3 + 1) + 'px';
-                    particle.style.animationDelay = Math.random() * 15 + 's';
-                    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                    
-                    container.appendChild(particle);
-                }
-            });
+            const particleCount = 20;
+            
+            // 기존 파티클 제거
+            particlesContainer.innerHTML = '';
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = Math.random() * 4 + 2 + 'px';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 화면 크기 변경 시 파티클 재생성
+        function handleResize() {
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(() => {
+                createParticles();
+            }, 250);
         }
 
         // Mobile menu toggle
@@ -1180,6 +1259,14 @@
             createParticles();
             initAnimations();
             startTypingEffect();
+        });
+
+        // 화면 크기 변경 및 방향 전환 감지
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                createParticles();
+            }, 500);
         });
 
         function initAnimations() {
