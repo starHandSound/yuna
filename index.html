@@ -326,6 +326,14 @@
                 0 0 20px var(--neon-cyan),
                 0 0 40px var(--neon-cyan);
             animation: timeGlow 3s ease-in-out infinite alternate;
+            line-height: 1.1;
+            word-break: keep-all;
+            overflow-wrap: normal;
+        }
+
+        /* 모바일에서 제목 줄바꿈 개선 */
+        .hero-title-mobile {
+            display: none;
         }
 
         @keyframes timeGlow {
@@ -706,6 +714,33 @@
                 margin: 0;
             }
             
+            .hero-title {
+                display: none;
+            }
+            
+            .hero-title-mobile {
+                display: block;
+                font-size: 2.2rem;
+                font-weight: 900;
+                margin-bottom: 1rem;
+                text-shadow: 
+                    0 0 10px var(--neon-cyan),
+                    0 0 20px var(--neon-cyan),
+                    0 0 40px var(--neon-cyan);
+                animation: timeGlow 3s ease-in-out infinite alternate;
+                line-height: 1.2;
+                text-align: center;
+            }
+            
+            .hero-title-mobile .line1 {
+                display: block;
+                margin-bottom: 0.2rem;
+            }
+            
+            .hero-title-mobile .line2 {
+                display: block;
+            }
+            
             .container {
                 padding: 0 1rem;
                 max-width: 100%;
@@ -771,10 +806,6 @@
                 display: block;
             }
             
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
             .chapter-image {
                 width: 150px;
                 height: 150px;
@@ -800,11 +831,6 @@
                 font-size: 2rem;
             }
             
-            .hero-section {
-                height: 100vh;
-                padding: 2rem 1rem;
-            }
-            
             .story-section {
                 padding: 3rem 0.5rem;
                 min-height: auto;
@@ -813,6 +839,16 @@
 
         /* 추가 모바일 최적화 */
         @media (max-width: 480px) {
+            .hero-title-mobile {
+                font-size: 1.8rem;
+                line-height: 1.1;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.9rem;
+                line-height: 1.3;
+            }
+            
             .container {
                 padding: 0 0.5rem;
             }
@@ -825,15 +861,6 @@
             .text-overlay {
                 padding: 1rem;
                 margin: 0.5rem 0;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-                line-height: 1.1;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
             }
             
             .chapter-name {
@@ -912,6 +939,17 @@
             animation: glitch-anim2 1s infinite linear alternate-reverse;
             color: var(--neon-magenta);
             z-index: -2;
+        }
+
+        /* 모바일 글리치 효과 */
+        .hero-title-mobile.glitch {
+            font-size: inherit;
+            text-transform: none;
+        }
+
+        .hero-title-mobile.glitch::before,
+        .hero-title-mobile.glitch::after {
+            content: "⏰ 유나와 쿠키의 시간여행";
         }
 
         @keyframes glitch-anim {
@@ -1020,6 +1058,10 @@
         <div class="particles"></div>
         <div class="container">
             <h1 class="hero-title glitch" data-text="⏰ 유나와 쿠키의 시간여행">⏰ 유나와 쿠키의 시간여행</h1>
+            <h1 class="hero-title-mobile glitch" data-text="⏰ 유나와 쿠키의 시간여행">
+                <span class="line1">⏰ 유나와 쿠키의</span>
+                <span class="line2">시간여행</span>
+            </h1>
             <p class="hero-subtitle">Time Travelers: When destiny writes itself in starlight</p>
         </div>
         <div class="scroll-indicator">⬇️</div>
